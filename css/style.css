@@ -432,7 +432,9 @@ body {
       max-width: -webkit-calc(900px - (30px));
       max-width: calc(900px - (30px));
       padding-right: 15px;
-      padding-left: 15px; } }
+      padding-left: 15px; }
+      .blog-main h1 {
+        font-size: 1.5em; } }
 
 ::selection {
   background: #75abea;
