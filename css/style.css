@@ -355,7 +355,6 @@ th {
 
 .post-detail a, .blog-footer .blog-foot-copyright a, .card .content a {
   color: #373C43;
-  padding: 1px;
   border-bottom: 1px #BEBBAE solid; }
 
 #menu a:hover, #menu a:active, .blog-header ul li a:hover, .blog-header ul li a:active, .post-more a:hover, .post-detail a:hover, .blog-archive .articles .articles-content:hover, .blog-archive .articles .articles-content:hover a, .blog-footer .blog-foot-copyright a:hover, .card .content a:hover, .card .content a:active {
