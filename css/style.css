@@ -369,13 +369,13 @@ h1 {
 
 h2 {
   font-size: 1.42em;
-  margin: 1.62em 0; }
+  margin: 1.2em 0; }
 
 h3 {
-  margin: 1.52em 0; }
+  margin: 1.0em 0; }
 
 p {
-  margin-bottom: 1.32em;
+  margin-bottom: 1.2em;
   hyphens: auto; }
 
 img {
@@ -417,8 +417,8 @@ html {
 
 body {
   padding: 0;
-  font-size: 17px;
-  line-height: 1.7em;
+  font-size: 16px;
+  line-height: 1.7;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", sans-serif;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -431,8 +431,8 @@ body {
     .blog-main {
       max-width: -webkit-calc(900px - (30px));
       max-width: calc(900px - (30px));
-      padding-right: 15px;
-      padding-left: 15px; }
+      padding-right: 10px;
+      padding-left: 10px; }
       .blog-main h1 {
         font-size: 1.5em; } }
 
@@ -605,15 +605,29 @@ body {
     .post-img {
       height: 200px; } }
 
+figure {
+  margin: 1.5em auto 2em auto; }
+
+figure figcaption {
+  width: 80%;
+  text-align: center;
+  margin: 10px auto 0 auto;
+  font-size: 0.9em;
+  color: #666; }
+
 .post-header a:hover {
   border-bottom: 2px #75abea solid; }
+
+.post-title {
+  margin-top: 0; }
 
 .post-meta {
   font-weight: 300;
   font-size: 14px;
   text-align: left;
   font-family: "Songti SC", Georgia, Menlo, serif;
-  margin-bottom: 2em; }
+  margin-bottom: 2em;
+  margin-top: -1em; }
 
 .post-detail a {
   word-wrap: break-word; }
@@ -652,11 +666,11 @@ blockquote p {
   display: inline; }
 
 code {
-  background-color: rgba(58, 66, 80, 0.06);
+  background-color: #f9f2f4;
   padding: 2px 4px;
   font-family: Menlo, sans-serif;
   font-size: 14px;
-  color: #2476d4; }
+  color: #c7254e; }
 
 figure.highlight {
   padding: 0;
@@ -680,10 +694,10 @@ figure.highlight {
   figure.highlight pre {
     overflow: auto;
     font-size: 14px;
-    padding: 5px 0px;
-    font-family: Menlo, sans-serif; }
+    padding: 3px 0px;
+    font-family: "SF Mono", Menlo, Monaco, "Lucida Console", monospace; }
     figure.highlight pre .line {
-      line-height: 1.58rem;
+      line-height: 1.45em;
       padding: 0px 10px; }
   figure.highlight figcaption, figure.highlight .gutter {
     display: none; }
@@ -701,7 +715,7 @@ figure.highlight {
   padding: 25px; }
   @media screen and (max-width: 900px) {
     .post-content {
-      padding: 15px; } }
+      padding: 10px; } }
 
 @media screen and (max-width: 900px) {
   .detail-excerpt {

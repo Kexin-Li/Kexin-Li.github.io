@@ -84,7 +84,7 @@
     <div class="blog-main" style="margin-top: -150px">
       <div class="blog-post">
   
-    <div class="post-img" style="background-image: url(/assets/2.jpg)">
+    <div class="post-img" style="background-image: url(/assets/1.jpg)">
     </div>
   
 
@@ -94,14 +94,14 @@
         
   
     <h1 class="post-title">
-      <a href="/en/2018/08/26/sonnet-18/">
-        Shall I compare thee to a summer’s day?
+      <a href="/zh/2018/09/14/how-react-works/">
+        解析 React 工作流程
       </a>
     </h1>
   
 
 <div class="post-meta">
-  2018-08-26
+  2018-09-14
   
   
 </div>
@@ -109,21 +109,42 @@
     </div>
     <div class="post-detail">
       
-        <p>Shall I compare thee to a summer’s day?</p>
-<p>Thou art more lovely and more temperate.</p>
-<p>Rough winds do shake the darling buds of May,</p>
-<p>And summer’s lease hath all too short a date.</p>
+        <p>说起 React，可能脑海中浮现的第一句代码应该是 <code>ReactDOM.render(&lt;App /&gt;, root)</code>。这一句代码很像 DOM 操作中的这句代码 <code>document.appendChild(App, root)</code>。然而对于 React 来说，将 App 节点加载在 root 节点之后的这个过程中还发生了很多故事，比如 <code>&lt;App /&gt;</code> 是如何转换为一个 DOM 节点的，<code>App</code> 和 <code>&lt;App /&gt;</code> 又有什么关系，render() 这个函数又做了什么等等。</p>
+<p>这句代码所描述的场景可以称之为 Mounting，也就是加载一个组件到实际 DOM。</p>
 <a id="more"></a>
-<p>Sometime too hot the eye of heaven shines,</p>
-<p>And often is his gold complexion dimmed;</p>
-<p>And every fair from fair sometime declines,</p>
-<p>By chance, or nature’s changing course, untrimmed;</p>
-<p>But thy eternal summer shall not fade,</p>
-<p>Nor lose possession of that fair thou ow’st,</p>
-<p>Nor shall death brag thou wand’rest in his shade,</p>
-<p>When in eternal lines to Time thou grow’st.</p>
-<p>So long as men can breathe, or eyes can see,</p>
-<p>So long lives this, and this gives life to thee.</p>
+<p>除了 Mounting 是 React 的主要功能之外，另外一个主要功能就是 Updating。在写原生 JS 的时候，当监测到用户响应，就会直接操作 DOM 呈现响应后的结果。而对于一个大型的应用，频繁地直接操作 DOM，将会增大 GPU 的消耗。React 的出现不仅仅实现了组件化编程，更是降低了直接操作实际 DOM 的频率。React 在内部会绘制出一棵 Virtual DOM Tree，它其实是一个 JavaScript Object。当监测到用户响应需要更新页面时，React 会根据新的 UI 绘制出一棵新的 Virtual DOM Tree，通过 Diff 算法对比旧的 Virtual DOM Tree，计算出差异有选择性地更新到实际的 DOM 中。这样做虽然降低了直接操作 DOM 的频率，但牺牲了操作实际 DOM 的速度。</p>
+<h2 id="Mounting"><a href="#Mounting" class="headerlink" title="Mounting"></a>Mounting</h2><p>了解加载过程，首先需要了解 React 是如何实现组件化编程的。在 React 中，组件（Component）并不是最小单位，元素（Element）才是。Element 是一个 JavaScript Object，里面保存着组件 的信息，而 Component 可以是 functional component, class component, 或者一个 <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code> 等等。所以 Component 是一个纯函数，一个类，或者一个 HTML Tag。我们平常写的 JSX，虽然看起来像是一句句 HTML，但最终都被 Babel 转换为了一个 Element 对象，保存着这个组件的信息。刚刚的这句代码 <code>ReactDOM.render(&lt;App /&gt;, root)</code>，其中 <code>&lt;App /&gt;</code> 其实是 Element，而 <code>App</code> 才是一个 Component。</p>
+<p>在实现 Mounting 的过程中，将经历三次转换。</p>
+<p><strong>JSX –&gt; Element</strong></p>
+<p>JSX 将在 Babel 的作用下被编译为 <code>React.createElement()</code> 函数，其参数是拆解了 JSX 将它们装进一个 JavaScript Object。这个 Object 在 <code>createElement</code> 函数的作用下变成了一个 Element 对象。至于这两个对象有什么区别，其实区别不大，只是修改了 Object 内 property 的组合方式而已。我们只要知道，Element 对象内的信息就是写的 JSX 信息，同一个信息的不同表示。</p>
+<p><strong>Element –&gt; Component</strong></p>
+<p>之前说到 Component 可以有好几种类型，具体有以下几种类型：</p>
+<ul>
+<li>DOMComponent: Platform-Sepcific Component, <code>div</code>, <code>span</code> 等等。</li>
+<li>CompositeComponent: User-defined Component<ul>
+<li>functional component: 没有 local state 和 lifecycle</li>
+<li>class component: 有 local state 和 lifecycle</li>
+</ul>
+</li>
+<li>TextComponent: number or string</li>
+</ul>
+<p>React 将这几种 Component 各自封装成类，这个类中包含了 <code>mount()</code> 方法，<code>update()</code> 方法以及其他信息。Element 向 Component 转换的过程也就是实例化各自类的过程。根据 Element 中描述 Component 类型的 type 属性来实例化相应的 Component 类。</p>
+<p><strong>Component –&gt; Real Node</strong></p>
+<p>在不同的 Component 类中，也有不同的 <code>mount()</code> 方法实现，来将 Component 转换为 Real Node。</p>
+<p>对于 CompositeComponent 来说，它不会做真正的 <code>document.createElement()</code> 这种操作，而是将 mount 操作 defer 到 DOMComponent。对于 DOMComponent，主要做了三件事，一是创建 Real Node，二是将 attribute 从 Component 映射到 Real Node 中，二是递归其子 Component，若是遇到 CompositeComponent，收集信息并 defer 到 DOMComponent，若是遇到 DOMComponent，创建 Real Node。如此往复。</p>
+<p>总结 Mounting 的流程为：</p>
+<p><img src="http://pek9gdw3x.bkt.clouddn.com/mounting.jpg" alt="mounting"></p>
+<h2 id="Updating"><a href="#Updating" class="headerlink" title="Updating"></a>Updating</h2><p>在写原生 JS 的时候，UI 的更新通常是需要用户触发某个操作。在 React 中，UI 的更新来自于组件的 props 或 local state 的变化，这两种变化也间接是由用户响应导致。因此，当 props 或 local state 改变了之后，React 是如何将 Component 更新到实际的 DOM 上的呢？</p>
+<h3 id="Stack-Reconciler"><a href="#Stack-Reconciler" class="headerlink" title="Stack Reconciler"></a>Stack Reconciler</h3><p>React 在加载完组件后，将生成 Virtual DOM Tree，就是一棵保存了所有节点信息的树，同时它是 JavaScript Object。当 UI 需要更新时，将生成一棵新的 Tree。通过 Diff 算法进行遍历和比较 Virtual DOM Tree 找出差异点，这个过程叫做 <a href="https://reactjs.org/docs/reconciliation.html" target="_blank" rel="noopener">Reconciler</a>。在 React 15 及之前，都是通过 Stack Reconciler 来实现更新过程。而在 React 16 之后，React 发布了优化后的 React Fiber 算法。<a href="https://reactjs.org/docs/reconciliation.html#motivation" target="_blank" rel="noopener">React 所使用的 Diff 算法是假设以下两个条件成立的 O(N) 算法</a>。</p>
+<ul>
+<li>不同类型的 Element 会生成不同的子树。例如 div 变化成 ul，或者 <code>&lt;Counter /&gt;</code> 变为 <code>&lt;Header /&gt;</code>。</li>
+<li>通过 key 这个属性，React 可以得知在重绘中需要具体更新哪几个节点。</li>
+</ul>
+<p>通过 Diff，会找出需要插入（insert）的新节点，需要移除（remove）的节点，和需要调整顺序（move）的节点。这时不会马上对这些需要调整的节点执行操作，而是将它们保存在一个数组或者对象的数据结构里，将操作和节点信息一一对应，最后统一执行 DOM 操作。这个过程和 JS, Java 等的内存回收机制有点像，都是一种“先标记再清除”的算法。</p>
+<h3 id="Fiber-Reconciler"><a href="#Fiber-Reconciler" class="headerlink" title="Fiber Reconciler"></a>Fiber Reconciler</h3><p><a href="https://github.com/acdlite/react-fiber-architecture" target="_blank" rel="noopener">Fiber Reconciler</a> 优化了Stack Reconciler 如同函数调用栈的策略，它一定要等整棵 Virtual DOM 计算完成之后，才将任务出栈释放主线程。Fiber Reconciler 将任务（渲染，更新等）拆分成一系列的小任务，每次检查树上的一小部分，完成后确认否还有时间继续下一个任务，存在时继续，不存在下一个任务时自己挂起，主线程不忙的时候再继续，变成一种可切分，可中断的模式从而提高效率。</p>
+<p>更多请参考<a href="https://juejin.im/entry/5b2910c3f265da599f68c981" target="_blank" rel="noopener">这篇文章</a>。</p>
+<p>总结 Updating 的流程为：</p>
+<p><img src="http://pek9gdw3x.bkt.clouddn.com/updating.png" alt="updating"></p>
 
         <hr>
       
@@ -138,22 +159,17 @@
   
   
   <div class="post-tags">
-    <a href="/tags/poem/">#poem</a>
+    <a href="/tags/react/">#react</a>
   </div>
   <hr>
   
 
       <div class="post-more">
   
-    <div class="post-pre">
-      <span>previous</span>
-      <a href="/zh/2018/09/14/how-react-works/">解析 React 工作流程</a>
-    </div>
-  
   
   <div class="post-next">
     <span>next</span>
-    <a href="/en/2018/08/26/hello-cicada/">Hello Cicada</a>
+    <a href="/en/2018/08/26/sonnet-18/">Shall I compare thee to a summer’s day?</a>
   </div>
   
 </div>
