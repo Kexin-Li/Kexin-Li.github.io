@@ -629,6 +629,9 @@ figure figcaption {
   font-family: "Songti SC", Georgia, Menlo, serif;
   margin-bottom: 2em;
   margin-top: -1em; }
+  @media screen and (max-width: 900px) {
+    .post-meta {
+      margin-top: 0; } }
 
 .post-detail a {
   word-wrap: break-word; }
