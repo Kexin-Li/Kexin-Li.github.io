@@ -95,7 +95,7 @@
   
     <h1 class="post-title">
       <a href="/zh/2018/09/20/what-is-scope-and-closures/">
-        JavaScript 作用域
+        JavaScript 作用域与闭包
       </a>
     </h1>
   
@@ -109,14 +109,14 @@
     </div>
     <div class="post-detail">
       
-        <p>作用域是一套规则，它用来管理引擎如何方便的查找到变量。所以我认为作用域主要是用来确定变量的位置，判断是否可访问到。也正如《你不知道的 JavaScript（上卷）》中作者指出的：</p>
+        <p>作用域是一套规则，它用来指导引擎如何查找到变量。所以我认为作用域主要是用来确定变量的位置，判断是否可访问到。</p>
 <blockquote>
 <p>作用域是引擎的另一个好朋友（还有一个是编译器），它负责收集并维护由所有声明的标识符（变量）组成的一系列查询，并实施一套非常严格的规则，确定当前执行的代码对这些标识符的访问权限。</p>
 </blockquote>
-<p>作用域有两种模型：词法作用域和动态作用域。第一种是较为普遍的，JavaScript 中的作用域也属于这一种。</p>
 <a id="more"></a>
+<p>作用域有两种模型：词法作用域和动态作用域。第一种是较为普遍的，JavaScript 中的作用域也属于这一种。</p>
 <h2 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h2><p>词法作用域就是定义在词法阶段的作用域，即写代码时将变量定义在哪个位置，在编译器的词法分析阶段，就根据相应的规则得到的作用域，而这个作用域就将保持不变。但也有一些函数（eval(), with）或手段能够在运行时更改作用域，但更改作用域会<strong>导致性能下降</strong>，所以不推荐这样做。</p>
-<figure><img src="http://pek9gdw3x.bkt.clouddn.com/scope.png" alt="Scope example" style="height:400px"><figcaption>Scope 实例代码</figcaption></figure>
+<figure><img src="http://pek9gdw3x.bkt.clouddn.com/scope.png" alt="Scope example"><figcaption>Scope 实例代码</figcaption></figure>
 
 <p>如上图所示的一段代码，包含着三个逐级嵌套的作用域：</p>
 <ul>
@@ -147,15 +147,17 @@
 <p><strong>立即执行函数</strong><br>立即执行函数指不需要调用就能自动执行的函数，下面这样的函数就是立即执行函数：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(a); <span class="comment">// 3</span></span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
 <!--### 块作用域-->
-<h2 id="提升（hoisting）"><a href="#提升（hoisting）" class="headerlink" title="提升（hoisting）"></a>提升（hoisting）</h2><p>提升是包括变量和函数在内的所有声明都会在任何代码被执行前首先被处理。</p>
-<p>变量提升如下面的代码。变量 a 的声明虽然在赋值之后，但因为 JS 引擎会将声明首先执行，因此这段程序还是能正常运行。</p>
+<h2 id="提升（Hoisting）"><a href="#提升（Hoisting）" class="headerlink" title="提升（Hoisting）"></a>提升（Hoisting）</h2><p>提升是包括变量和函数在内的所有声明都会在任何代码被执行前首先被处理。</p>
+<p><strong>变量提升</strong><br>变量 a 的声明虽然在赋值之后，但因为 JS 引擎会将声明首先执行，因此这段程序还是能正常运行。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
-<p>函数提升如下。函数 foo 的声明虽然在执行之后，但 JS 引擎会将声明提前，因此代码不会报错。变量 a 也是同理。</p>
+<p><strong>函数提升</strong><br>函数 foo 的声明虽然在执行之后，但 JS 引擎会将声明提前，因此代码不会报错。变量 a 也是同理。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">foo();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(a); <span class="comment">// undefined</span></span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>注意，函数声明会被提升，但函数表达式不会被提升。</strong>比如下面这段代码。变量标识符 foo() 会被提升并被分配至所在作用域（全局作用域），因此不会产生 ReferenceError。此时 foo 并没有赋值，因此抛出 TypeError 异常。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">foo(); <span class="comment">// 不是 ReferenceError，而是 TypeError</span></span><br><span class="line">bar(); <span class="comment">// ReferenceError</span></span><br><span class="line"><span class="keyword">var</span> foo = <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>关于函数表达式与函数声明，最主要的区别就是函数表达式可以没有名称，可以作为匿名函数。其次，一个函数表达式可以被用作一个 IIFE(Immediately Invoked Function Expression，立即执行函数)。</p>
+<h2 id="闭包-Closure"><a href="#闭包-Closure" class="headerlink" title="闭包(Closure)"></a>闭包(Closure)</h2><p>闭包是基于词法作用域写代码时所产生的自然结果。当函数可以在它所在词法作用域之外被执行时，就产生了闭包。比如下面这段代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> bar;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> baz = foo();</span><br><span class="line">baz(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>这段代码共有三个作用域，Global, foo 和 bar 作用域。函数 <code>bar()</code> 在 foo 作用域中，它本身被当作一个值返回。接着，函数 <code>foo()</code> 的返回值函数 <code>bar()</code> 赋值给了变量 <code>baz</code>，而调用 <code>baz()</code> 就相当于调用了函数 <code>bar()</code>。这个时候函数 <code>bar()</code> 就在它原本的作用域（foo）之外的作用域（global）被执行了。这就是闭包。</p>
 
         <hr>
       
