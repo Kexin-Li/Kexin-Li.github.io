@@ -480,6 +480,8 @@ body {
     font-weight: 800;
     letter-spacing: 1px;
     line-height: 20px; }
+    #menu a:hover {
+      border: none; }
 
 @font-face {
   font-family: 'iconfont';
@@ -720,10 +722,6 @@ figure.highlight {
   @media screen and (max-width: 900px) {
     .post-content {
       padding: 10px; } }
-
-@media screen and (max-width: 900px) {
-  .detail-excerpt {
-    display: none; } }
 
 .blog-archive .fas {
   margin-right: 10px; }
