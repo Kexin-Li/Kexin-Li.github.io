@@ -353,7 +353,7 @@ th {
 .blog-pager a, .post-more a {
   font-weight: bold; }
 
-.post-detail a, .blog-footer .blog-foot-copyright a, .card .content a, .notion a {
+.post-detail a, .blog-footer .blog-foot-copyright a, .card .content a {
   color: #373C43;
   border-bottom: 1px #BEBBAE solid; }
 
@@ -442,7 +442,7 @@ body {
   color: #fff; }
 
 .blog-pager {
-  margin: 5em 0; }
+  padding: 50px 0; }
   .blog-pager a {
     text-transform: uppercase;
     background-color: #BEBBAE;
@@ -572,24 +572,21 @@ body {
   padding-right: 20px; }
   @media screen and (max-width: 900px) {
     .subtitle {
-      top: 20%; }
-      .subtitle h1 {
-        font-size: 1.5em; } }
+      top: 20%;
+      font-size: 1.5em; } }
 
 .post-more {
   display: flex;
+  justify-content: space-between;
   text-transform: uppercase; }
   .post-more a:hover {
     border-bottom: 0; }
-  .post-more .post-pre {
-    flex: 1; }
-    .post-more .post-pre span {
-      display: block;
-      text-align: left;
-      font-size: 12px;
-      color: #75abea; }
+  .post-more .post-pre span {
+    display: block;
+    text-align: left;
+    font-size: 12px;
+    color: #75abea; }
   .post-more .post-next {
-    flex: 1;
     text-align: right; }
     .post-more .post-next span {
       display: block;
@@ -909,19 +906,3 @@ figure.highlight {
           background-color: #C6C5B9; }
   .card hr {
     margin: 20px 0; }
-
-.notion-wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-top: 50px; }
-
-.notion {
-  padding: 25px;
-  background: #fff;
-  flex: 1;
-  margin-bottom: 25px;
-  box-shadow: 0px 10px 30px rgba(210, 190, 171, 0.3); }
-  .notion span {
-    font-size: 14px;
-    color: #666;
-    float: right; }
