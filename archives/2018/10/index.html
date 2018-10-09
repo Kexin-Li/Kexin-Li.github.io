@@ -39,7 +39,7 @@
   <body>
     
 
-<header class="blog-slide" style="height: px">
+<header class="blog-slide" style="height: 256px">
   <nav class="blog-header">
     <a class="mobile toggle-button"><i class="fas fa-bars fa-lg"></i></a>
     <ul>
@@ -55,7 +55,7 @@
       
     </ul>
   </nav>
-  <h1 class="subtitle">Some Works</h1>
+  <h1 class="subtitle">Archives</h1>
 </header>
     <nav id="menu">
   
@@ -69,30 +69,33 @@
   
 </nav>
     
-    <main class="blog-main" style="margin-top: -150px">
-      <section class="card-wrapper">
+    <main class="blog-main" style="margin-top: 50px">
+      <section class="blog-archive">
   
   
-    
-      <div class="card">
-        <div class="img" style="background-image: url(/images/screenshot.png)"></div>
-        <div class="content">
-          Cicada is a concise and retro theme for Hexo.
-          <hr>
-          <div class="bottom"><a href="https://github.com/Kexin-Li/hexo-theme-cicada">Try it</a></div>
+    <div class="archive-year">
+      <h2 class="archive-title"><i class="fas fa-archive"></i>2018</h2>
+      <div class="articles">
+      
+        <div class="articles-content">
+            <time class="is-text-small" datetime="2018-10-09T13:13:19.000Z" itemprop="datePublished">10-09</time>
+            <a href="/zh/2018/10/09/learn-node-part1/">Node 初探之异步</a>
         </div>
-      </div>
-    
-      <div class="card">
-        <div class="img" style="background-image: url(/images/RSpotify.png)"></div>
-        <div class="content">
-          RSpotify is a Spotify Client Build with React & Redux.
-          <hr>
-          <div class="bottom"><a href="https://github.com/Kexin-Li/RSpotify">Try it</a></div>
+        <hr>
+      
+        <div class="articles-content">
+            <time class="is-text-small" datetime="2018-10-08T11:59:34.000Z" itemprop="datePublished">10-08</time>
+            <a href="/zh/2018/10/08/network-notes-part2/">网络基础知识备忘录(二)</a>
         </div>
+        <hr>
+      
       </div>
-    
+    </div>
   
+  <nav class="blog-pager">
+  
+  
+</nav>
 </section>
     </main>
     
@@ -154,7 +157,7 @@
       var dsq = document.createElement('script');
       dsq.type = 'text/javascript';
       dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
       }());
   </script>

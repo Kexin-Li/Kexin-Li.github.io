@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="/css/style.css">
 
   <script>
-    window.config = {"title":"ZERO","subtitle":"I Must Go Seek Some Dewdrops","description":null,"author":"likexin","language":"en-US","timezone":null,"url":"https://kexin-li.github.io","root":"/","permalink":":lang/:year/:month/:day/:title/","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":"atom-one-light","default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":5,"pagination_dir":"page","theme":"cicada","deploy":{"type":"git","repo":"https://github.com/Kexin-Li/kexin-li.github.io.git","branch":"master"},"ignore":[],"keywords":null,"index_generator":{"per_page":5,"order_by":"-date","path":""},"search":{"path":"search.xml","field":"post","format":"html","limit":10000},"archive_generator":{"per_page":5,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":5},"tag_generator":{"per_page":5},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true,"modifyAnchors":"","autolink":true},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true},"favicon":"/images/favicon.ico","menu":{"home":"/","archives":"/archives","portfolio":"/portfolio","about":"/about"},"show_tag":true,"show_category":false,"excerpt_link":"Read More","fancybox":true,"disqus_shortname":"Shingooo","social":{"email":"hollalikexin@gmail.com","instagram":"https://www.instagram.com/hollalikexin/","douban":null,"linkedin":null,"weibo":null,"stackoverflow":"https://stackoverflow.com/users/6737259/kexin-li","facebook":null,"twitter":null,"github":"https://github.com/Kexin-Li","rss":null,"google":null,"zhihu":null,"pocket":null},"google_analytics":"UA-124632979-1","portfolio":{"subtitle":"Some Works","cards":{"card1":{"cover":"/images/screenshot.png","content":"Cicada is a concise and retro theme for Hexo.","link":"https://github.com/Kexin-Li/hexo-theme-cicada"},"card2":{"cover":"/images/RSpotify.png","content":"RSpotify is a Spotify Client Build with React & Redux.","link":"https://github.com/Kexin-Li/RSpotify"}}},"about":{"subtitle":"Just Another Software Engineer"}};
+    window.config = {"title":"ZERO","subtitle":"I Must Go Seek Some Dewdrops","description":null,"author":"likexin","language":"en-US","timezone":null,"url":"https://kexin-li.github.io","root":"/","permalink":":lang/:year/:month/:day/:title/","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":"atom-one-light","default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":10,"pagination_dir":"page","theme":"cicada","deploy":{"type":"git","repo":"https://github.com/Kexin-Li/kexin-li.github.io.git","branch":"master"},"ignore":[],"keywords":null,"index_generator":{"per_page":10,"order_by":"-date","path":""},"search":{"path":"search.xml","field":"post","format":"html","limit":10000},"archive_generator":{"per_page":10,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":10},"tag_generator":{"per_page":10},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true,"modifyAnchors":"","autolink":true},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true},"favicon":"/images/favicon.ico","menu":{"home":"/","archives":"/archives","portfolio":"/portfolio","about":"/about"},"show_tag":true,"show_category":false,"excerpt_link":"Read More","fancybox":true,"disqus_shortname":"Shingooo","social":{"email":"hollalikexin@gmail.com","instagram":"https://www.instagram.com/hollalikexin/","douban":null,"linkedin":null,"weibo":null,"stackoverflow":"https://stackoverflow.com/users/6737259/kexin-li","facebook":null,"twitter":null,"github":"https://github.com/Kexin-Li","rss":null,"google":null,"zhihu":null,"pocket":null},"google_analytics":"UA-124632979-1","portfolio":{"subtitle":"Some Works","cards":{"card1":{"cover":"/images/screenshot.png","content":"Cicada is a concise and retro theme for Hexo.","link":"https://github.com/Kexin-Li/hexo-theme-cicada"},"card2":{"cover":"/images/RSpotify.png","content":"RSpotify is a Spotify Client Build with React & Redux.","link":"https://github.com/Kexin-Li/RSpotify"}}},"about":{"subtitle":"Just Another Software Engineer"}};
   </script>
 </head>
   <body>
@@ -71,6 +71,43 @@
     
     <main class="blog-main" style="margin-top: -150px">
       
+    <article class="blog-post">
+  
+
+  <div class="post-content">
+    <div class="post-header">
+      
+        
+  
+    <h1 class="post-title">
+      <a href="/zh/2018/10/09/learn-node-part1/">
+        Node 初探之异步
+      </a>
+    </h1>
+  
+
+      
+    </div>
+    <div class="post-detail">
+      
+        <p>Node 的特点有异步 IO、事件循环与回调函数和单线程。Node 的使用场景有 I/O 密集型应用、CPU 密集型应用和分布式应用。</p>
+<p>Nginx 与 Node 都是异步 I/O、事件驱动的设计理念，它们的区别是 Nginx 具备面向客户端管理连接的强大能力，它的背后依然受限于各种同步方式的编程语言。</p>
+        <p id="excerpt">
+          <a href="/zh/2018/10/09/learn-node-part1/" class="blog-post-link">
+            Read More
+          </a>
+        </p>
+        <hr>
+      
+    </div>
+
+    
+
+    
+  </div>
+</article>
+
+
     <article class="blog-post">
   
     <div class="post-img" style="background-image: url(/assets/5.jpg)">

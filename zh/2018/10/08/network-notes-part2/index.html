@@ -72,7 +72,7 @@
     <main class="blog-main" style="margin-top: -150px">
       <article class="blog-post">
   
-    <div class="post-img" style="background-image: url(/assets/6.jpg)">
+    <div class="post-img" style="background-image: url(/assets/4.jpg)">
     </div>
   
 
@@ -82,14 +82,14 @@
         
   
     <h1 class="post-title">
-      <a href="/en/2018/08/26/sonnet-18/">
-        Shall I compare thee to a summer’s day?
+      <a href="/zh/2018/10/08/network-notes-part2/">
+        网络基础知识备忘录(二)
       </a>
     </h1>
   
 
 <div class="post-meta">
-  2018-08-26
+  2018-10-08
   
   
 </div>
@@ -98,21 +98,35 @@
     </div>
     <div class="post-detail">
       
-        <p>Shall I compare thee to a summer’s day?</p>
-<p>Thou art more lovely and more temperate.</p>
-<p>Rough winds do shake the darling buds of May,</p>
-<p>And summer’s lease hath all too short a date.</p>
+        <blockquote>
+<p>对于我来说网络知识是属于比较抽象的部分，很多东西不记录下来很快就会忘记。所以有了这个网络基础知识的备忘录，这是第二部分，<a href="https://kexin-li.github.io/zh/2018/09/17/network-notes-part1/">第一部分见这里</a> :)</p>
+</blockquote>
 <a id="more"></a>
-<p>Sometime too hot the eye of heaven shines,</p>
-<p>And often is his gold complexion dimmed;</p>
-<p>And every fair from fair sometime declines,</p>
-<p>By chance, or nature’s changing course, untrimmed;</p>
-<p>But thy eternal summer shall not fade,</p>
-<p>Nor lose possession of that fair thou ow’st,</p>
-<p>Nor shall death brag thou wand’rest in his shade,</p>
-<p>When in eternal lines to Time thou grow’st.</p>
-<p>So long as men can breathe, or eyes can see,</p>
-<p>So long lives this, and this gives life to thee.</p>
+<h2 id="HTTP-的缺点"><a href="#HTTP-的缺点" class="headerlink" title="HTTP 的缺点"></a>HTTP 的缺点</h2><ol>
+<li>通信使用明文（不加密），内容可能会被窃听。</li>
+<li>不验证通信方的身份，因此有可能已遭篡改。</li>
+<li>无法证明报文的完整性，所以有可能已遭篡改。</li>
+</ol>
+<p><strong>通信使用明文</strong><br>HTTP 报文使用明文方式发送，这导致了在某个环节中会有被窃听的风险。因为互联网上任何角落的通信内容都存在被窃听的风险。而窃听的手段就是收集在互联网上流动的数据包就行了，再根据某些解析工具（比如抓包工具，嗅探器工具）来解析这些数据包。</p>
+<p>因此为了防止被窃听，可以使用加密技术来保护信息。加密的对象可以是通信的加密和内容的加密。</p>
+<p>将通信加密即通过 HTTP 协议和 SSL(Secure Socket Layer, 安全套接字) 或 TLS(Transport Layer Security, 安全传输层协议) 的组合使用来加密 HTTP 的通信内容。其中与 SSL 组合使用的 HTTP 被称为 HTTPS。</p>
+<p>而将内容加密是客户端先对 HTTP 报文中所含的内容（报文主体）进行加密处理，再发送请求。当然，为了做到有效加密机制，前提是要求客户端和服务端同时具备加密和解密机制。并且对内容加密不同于对整条通信线路加密，因此内容还是有被篡改的风险。</p>
+<p><strong>不验证通信方的身份</strong><br>由于 HTTP 协议在通信时，不存在确认通信方的步骤，因此任何人都可以发起请求，服务器只要接收到请求，不管是谁都会返回一个响应。这就造成了请求或响应有被篡改的风险。</p>
+<p>使用 SSL 不仅能提供加密处理，也能提供证书，用以验证对方是否可信任。证书由值得信任的第三方机构颁发，用以证明服务器和客户端是实际存在的。</p>
+<p><strong>无法证明报文的完整性</strong><br>HTTP 协议无法确认报文的完整性，也就是说无法确认到达服务器的请求是否和客户端发送的请求一致，也无法确认客户端收到的响应是否和服务端返回的响应一致，它们都可能遭篡改。类似这样的，请求或响应在传输途中，遭攻击者拦截并篡改内容的攻击称为中间人攻击(Man-in-the-Middle attack, MITM)。</p>
+<p>可以使用 MD5 和 SHA-1 等散列值校验的方法，以及用来确认文件的数字签名方法来保证报文的完整性。但它们也不是百分百能保证，比如如果 MD5 本身就被改写的情况。</p>
+<p>以上如此多的弊端，真的有必要使用 HTTPS 了。</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p><code>HTTPS = HTTP + 加密 + 认证 + 完整性保护</code>。 HTTPS 并非是一个新协议，只是 HTTP 通信接口部分用 SSL 和 TLS 协议代替而已。通常情况 HTTP 直接和 TCP 通信。当使用 SSL 时，HTTP 先和 SSL 通信，再由 SSL 和 TCP 通信。简言之，HTTPS 是披着 SSL 外壳的 HTTP。</p>
+<h3 id="加密技术"><a href="#加密技术" class="headerlink" title="加密技术"></a>加密技术</h3><p>在近代的加密方法中，加密算法通常是公开的，而密钥是保密的。加密和解密都会用到密钥。其中加密和解密使用同一把密钥的方式称为共享密钥加密。以共享密钥加密方式加密时必须也要把密钥也发送给对方。但密钥的发送也有被窃听的风险，并且如果密钥能安全发送那么数据应该也能安全发送吧。所以这是一个显得有点“矛盾”的加密方式。</p>
+<p>加密和解密使用不同的密钥称为公开密钥方式。其中一把为公开密钥，一把为私有密钥。顾名思义，公开密钥可以随意发布，而私有密钥不能让任何人知道。在发送端使用公开密钥进行加密处理，接收端使用自己的私有密钥进行解密。</p>
+<p>HTTPS 采用共享密钥加密和公开密钥加密的混合加密机制，这是因为公开密钥加密比共享密钥加密处理速度慢很多。在确保安全的前提下，则采用共享密钥加密来加快处理速度。</p>
+<h3 id="SSL"><a href="#SSL" class="headerlink" title="SSL"></a>SSL</h3><p>SSL 采用公开密钥加密（Public-key cryptography）的加密处理方式。</p>
+<p>当使用 SSL 时，它的处理速度会变慢。也就是当使用 HTTPS 时，会比使用 HTTP 慢很多。原因是 HTTPS 不仅需要做服务器、客户端双方的加密及解密处理，这会消耗 CPU 及内存等硬件资源，而且需要做 SSL 通信处理，因此通信时间会延长。</p>
+<p>针对速度慢这一问题，我们会使用 SSL 加速器这种硬件来改善问题。</p>
+<h2 id="Web-的攻击技术"><a href="#Web-的攻击技术" class="headerlink" title="Web 的攻击技术"></a>Web 的攻击技术</h2><p>在 HTTP 请求报文内加载攻击代码，就能对 Web 应用发起攻击。通过 URL 查询字段或表单、HTTP 首部、Cookie 等途径把攻击代码传入，若这时 Web 应用存在安全漏洞，那内部信息就会遭到窃取，或被攻击者拿到管理权限。</p>
+<p>对 Web 的攻击模式有两种：主动攻击和被动攻击。</p>
+<p><strong>主动攻击</strong><br>主动攻击（active attack）是指攻击者通过直接访问 Web 应用，把攻击代码传入。由于该模式是直接针对服务器上的资源进行攻击，因此攻击者能够访问到那些资源。最具代表性的主动攻击是<strong> SQL 注入攻击</strong>和<strong> OS 命令注入攻击</strong>。</p>
+<p><strong>被动攻击</strong><br>被动攻击（passive attack）是指利用圈套策略执行攻击代码。在被动攻击过程中，攻击者不直接对目标 Web 应用发起攻击，而是诱发用户触发圈套来执行攻击代码。最具代表性的被动攻击是跨站脚本攻击（Cross-Site Scripting, XSS）和跨站点请求伪造。</p>
 
         <hr>
       
@@ -127,7 +141,7 @@
   
   
   <div class="post-tags">
-    <a href="/tags/poem/">#poem</a>
+    <a href="/tags/network/">#network</a>
   </div>
   <hr>
   
@@ -136,13 +150,13 @@
   
     <div class="post-pre">
       <span>previous</span>
-      <a href="/zh/2018/09/14/how-react-works/">解析 React 工作流程</a>
+      <a href="/zh/2018/10/09/learn-node-part1/">Node 初探之异步</a>
     </div>
   
   
   <div class="post-next">
     <span>next</span>
-    <a href="/en/2018/08/26/hello-cicada/">Hello Cicada</a>
+    <a href="/zh/2018/09/20/what-is-scope-and-closures/">JavaScript 作用域与闭包</a>
   </div>
   
 </div>
