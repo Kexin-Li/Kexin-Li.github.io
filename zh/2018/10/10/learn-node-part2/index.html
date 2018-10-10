@@ -39,7 +39,7 @@
   <body>
     
 
-<header class="blog-slide" style="height: 256px">
+<header class="blog-slide" style="height: px">
   <nav class="blog-header">
     <a class="mobile toggle-button"><i class="fas fa-bars fa-lg"></i></a>
     <ul>
@@ -55,7 +55,7 @@
       
     </ul>
   </nav>
-  <h1 class="subtitle">Tags</h1>
+  <h1 class="subtitle">I Must Go Seek Some Dewdrops</h1>
 </header>
     <nav id="menu">
   
@@ -70,11 +70,93 @@
 </nav>
     
     <main class="blog-main" style="margin-top: -150px">
-      <section class="blog-tags">
-  <div class="content">
-    <a class="tag-link" href="/tags/Cicada/">Cicada<span class="tag-count">1</span></a> <a class="tag-link" href="/tags/how-stuff-works/">how stuff works<span class="tag-count">1</span></a> <a class="tag-link" href="/tags/javascript/">javascript<span class="tag-count">4</span></a> <a class="tag-link" href="/tags/network/">network<span class="tag-count">2</span></a> <a class="tag-link" href="/tags/node/">node<span class="tag-count">2</span></a> <a class="tag-link" href="/tags/poem/">poem<span class="tag-count">1</span></a> <a class="tag-link" href="/tags/react/">react<span class="tag-count">1</span></a>
+      <article class="blog-post">
+  
+
+  <div class="post-content">
+    <div class="post-header">
+      
+        
+  
+    <h1 class="post-title">
+      <a href="/zh/2018/10/10/learn-node-part2/">
+        Node 初探之垃圾回收
+      </a>
+    </h1>
+  
+
+<div class="post-meta">
+  2018-10-10
+  
+  
+</div>
+
+      
+    </div>
+    <div class="post-detail">
+      
+        <p>在 V8 中，所有 JavaScript 对象都通过堆来进行分配的。当我们在代码中声明变量时，所使用对象的内存就分配在堆中。V8 会限制堆的大小，在 64 位系统下约为 1.4GB，32 位系统下约为 0.7GB。V8 中的垃圾回收机制也是系统自动回收，无需开发者手动回收。</p>
+<a id="more"></a>
+<h2 id="V8-的垃圾回收机制"><a href="#V8-的垃圾回收机制" class="headerlink" title="V8 的垃圾回收机制"></a>V8 的垃圾回收机制</h2><p>V8 的垃圾回收策略主要基于分代式垃圾回收机制，它将内存分为新生代和老生代，新生代中的对象为存活时间较短的对象，老生代中的对象为存活时间较长的对象。V8 堆的大小就等于新生代所用内存空间加上老生代所用内存空间。</p>
+<h3 id="新生代-Scavenge-算法"><a href="#新生代-Scavenge-算法" class="headerlink" title="新生代 Scavenge 算法"></a>新生代 Scavenge 算法</h3><p>新生代的对象主要通过 Scavenge 算法进行垃圾回收，Scavenge 又主要采用了 Cheney 算法。Cheney 算法是一种使用复制的方式实现的垃圾回收算法，它将堆一分为二，一个空间处于使用状态（称为 From 空间），一个空间处于闲置状态（称为 To 空间）。</p>
+<p>当我们分配内存时，会先分配到 From 空间。当开始进行垃圾回收时，也会先检查 From 空间的对象存活情况，将还存活的对象复制到 To 空间中，释放掉非存活对象。完成复制后，From 空间和 To 空间角色互换，即保持一个在使用中一个在闲置中的状态。</p>
+<p>Scavenge 是一种空间换时间的算法，它的缺点是只能使用堆内存的一半，但它很适合使用于对象生命周期短的场景，因为这种场景的存活对象少，每次复制的时间快。</p>
+<h3 id="老生代-Mark-Sweep-和-Mark-Compact-算法"><a href="#老生代-Mark-Sweep-和-Mark-Compact-算法" class="headerlink" title="老生代 Mark-Sweep 和 Mark-Compact 算法"></a>老生代 Mark-Sweep 和 Mark-Compact 算法</h3><p>当一个对象经过多次复制后依然属于存活对象，那么它就将被“晋升”到老生代。另外，如果发现 To 空间的内存占比达到了 25%，会直接将对象移到老生代。因为 To 空间下一次将成为 From 空间，内存占比太高不利于后续的内存分配。</p>
+<p>Mark-Sweep 是标记清除的意思，它分为标记和清除两个阶段。在标记阶段将遍历堆里的对象，标记存活的对象，在清除阶段则清除未被标记的对象。</p>
+<p>Mark-Sweep 存在的问题是导致内存碎片化，因为在一次标记清除结束后内存空间可能会变得不连续。这对后期分配大内存将产生影响。</p>
+<p>Mark-Compact 是标记整理的意思，是为了解决 Mark-Sweep 遗留的内存碎片化问题，它在标记完对象后将存活的对象移动到一端，只清理另一端的死亡对象。</p>
+<p>在 V8 中，主要使用 Mark-Sweep，在空间不足以对新生代中晋升过来的对象进行分配时才使用 Mark-Compact。</p>
+<h3 id="对于垃圾回收的改进"><a href="#对于垃圾回收的改进" class="headerlink" title="对于垃圾回收的改进"></a>对于垃圾回收的改进</h3><p>由于上述三种算法都需要暂停应用逻辑来执行垃圾回收，这种行为称为<strong>全停顿</strong>。在新生代由于默认配置比较小，因此全停顿对此影响不大，但对于配置较大的老生代来说，标记清理整理造成的停顿时间较长，因此 V8 改进了标记动作来缩小全停顿的时间。</p>
+<p>V8 将原本一口气完成标记的动作改为了增量标记，即拆分为许多小“步进”，每做完一“步进”就让应用逻辑执行一会儿，如此交替执行直到标记阶段完成。</p>
+<p>同时 V8 也引入了延迟清理和增量式整理动作来降低全停顿的时间。</p>
+<h2 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h2><p>当应当被会收的对象出现意外没有被回收时，将会出现内存泄漏。一般在 Node 中出现内存泄漏的原因有以下几个：</p>
+<ul>
+<li>缓存的无限制使用</li>
+<li>队列消费不及时</li>
+<li>作用域未释放</li>
+</ul>
+<p>缓存虽然能够帮助我们提高访问效率，但过度使用缓存将使得对象常驻老年代，不得被回收。因此应该使用完善的带有过期策略的缓存，或者直接使用进程外的缓存，比如 <a href="https://redis.io/" target="_blank" rel="noopener">Redis</a> 和 <a href="https://memcached.org/" target="_blank" rel="noopener">Memcached</a>。</p>
+<p>在 Node 中的事件循环中，依赖生产者/消费者模型，会经常使用队列作为中间产物，如果队列的取用不及时，那么会造成内存泄漏。因此较大型的应用应该监控队列的使用情况，一旦堆积则报警通知。</p>
+<p>闭包的使用能够帮助我们快捷地从外部作用域访问内部作用域的变量，但这也带来变量不能及时释放的危险。因此应该适当使用闭包。同时，全局作用域中的变量通常伴随着程序退出而被释放，因此可以手动赋值来消除变量引用。</p>
+
+        <hr>
+      
+    </div>
+
+    
+      
+    
+
+    
+      
+  
+  
+  <div class="post-tags">
+    <a href="/tags/javascript/">#javascript</a> <a href="/tags/node/">#node</a>
   </div>
-</section>
+  <hr>
+  
+
+      <div class="post-more">
+  
+  
+  <div class="post-next">
+    <span>next</span>
+    <a href="/zh/2018/10/09/learn-node-part1/">Node 初探之异步</a>
+  </div>
+  
+</div>
+      
+  <div class="post-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </div>
+
+    
+  </div>
+</article>
+
     </main>
     
     <div class="back-to-top" id="back-to-top"><i class="fas fa-arrow-alt-circle-up fa-2x"></i></div>
