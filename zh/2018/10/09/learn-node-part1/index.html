@@ -95,12 +95,13 @@
     </div>
     <div class="post-detail">
       
-        <p>Node 的特点有异步 IO、事件循环与回调函数和单线程。Node 的使用场景有 I/O 密集型应用、CPU 密集型应用和分布式应用。</p>
-<p>Nginx 与 Node 都是异步 I/O、事件驱动的设计理念，它们的区别是 Nginx 具备面向客户端管理连接的强大能力，它的背后依然受限于各种同步方式的编程语言。</p>
+        <p>Node 的特点有异步 IO、事件循环与回调函数和单线程。Node 的使用场景有 I/O 密集型应用、CPU 密集型应用和分布式应用。Nginx 与 Node 都是异步 I/O、事件驱动的设计理念，它们的区别是 Nginx 具备面向客户端管理连接的强大能力，它的背后依然受限于各种同步方式的编程语言。</p>
+<p>异步是指<em>现在</em>运行的程序和<em>将来</em>运行的程序中有一段时间间隙，如何处理这段时间间隙就是异步编程的核心。最简单的方法是使用回调函数。</p>
 <a id="more"></a>
 <h2 id="异步-I-O"><a href="#异步-I-O" class="headerlink" title="异步 I/O"></a>异步 I/O</h2><p>以读取文件为例，</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">'/path'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, file</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'读取文件完成'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(‘发起读取文件’);</span><br></pre></td></tr></table></figure>
-<p>“发起读取文件”是在“读取文件完成”之后输出的，而“读取文件完成”什么时候输出取决于读取文件的异步调用何时结束。即异步调用为，应用程序发起了请求之后可以继续执行任务，当请求处理完毕返回数据后触发回调函数处理数据。</p>
+<p>“发起读取文件”是在“读取文件完成”之前输出的，而“读取文件完成”什么时候输出取决于读取文件的异步调用何时结束。“发起读取文件”可以理解为<em>现在</em>运行的程序，“读取文件完成”理解为<em>将来</em>运行的程序。</p>
+<p>即异步调用为，应用程序发起了请求之后可以继续执行任务，当请求处理完毕返回数据后触发回调函数处理数据。</p>
 <p><img src="quiver-image-url/180903697EEB5E579BC9E86B99BFA2A0.jpg =658x591" alt="异步调用"></p>
 <p>使用异步的原因：</p>
 <ul>
@@ -114,8 +115,11 @@
 <p>在调用阻塞 I/O 时，应用程序需要等待 I/O 完成才返回结果，阻塞 I/O 的一个特点是调用之后一定要等到系统内核层面完成所有操作后，调用才结束。以读取磁盘上的一段文件为例，系统内核在完成磁盘寻道、读取数据、复制数据到内存中之后，这个调用才结束。</p>
 <p>阻塞 I/O 造成 CPU 等待 I/O，浪费等待时间，CPU 的处理能力不能得到充分利用。</p>
 <p>非阻塞 I/O 与阻塞 I/O 的区别是调用之后立即返回。但非阻塞 I/O 也有缺点，那就是立即返回的数据并不是业务层期望的数据，而是当前调用的状态。因此为了获取完整的数据，应用程序需要重复调用 I/O 操作来确认是否完成，这种技术叫<strong>轮询</strong>。</p>
-<h3 id="Node-中的异步-I-O"><a href="#Node-中的异步-I-O" class="headerlink" title="Node 中的异步 I/O"></a>Node 中的异步 I/O</h3><p>在 Node 中完成整个异步 I/O 环节的有事件循环、观察者和请求对象等。</p>
-<p><strong>事件循环</strong><br>在进程启动时，Node 会创建一个类似于 <code>while(true)</code> 的循环，在这个循环中执行的过程为查看是否有事件待处理，如果有就取出事件及回调函数，如果还存在关联的回调函数，就执行它们。然后进入下个循环，直到没有事件处理了就退出循环。</p>
+<h3 id="Node-中的异步-I-O"><a href="#Node-中的异步-I-O" class="headerlink" title="Node 中的异步 I/O"></a>Node 中的异步 I/O</h3><p>JavaScript 引擎并不是独立存在的，而是运行在宿主环境中，比如浏览器或者 Node。JavaScript 引擎自身没有时间概念，而是按需执行 JavaScript 代码。而事件的调度(即异步的执行)是由宿主环境完成的。在 Node 中完成整个异步 I/O 环节的有<strong>事件循环</strong>、<strong>观察者</strong>和<strong>请求对象</strong>等。</p>
+<p><strong>事件循环</strong><br>事件循环是一种机制，用来处理程序中多个块的执行，且执行每块时调用 JavaScript 引擎。事件循环的大体过程如下。</p>
+<p>在 Node 进程启动时，Node 会创建一个类似于 <code>while(true)</code> 的循环，在这个循环中执行的过程为查看是否有事件待处理，如果有就取出事件及回调函数，如果还存在关联的回调函数，就执行它们。然后进入下个循环，直到没有事件处理了就退出循环。</p>
+<p>可以用一段伪代码表示上述行为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 事件队列</span></span><br><span class="line"><span class="keyword">var</span> eventLoop = []; <span class="comment">// queue</span></span><br><span class="line"><span class="comment">// 事件(回调函数)</span></span><br><span class="line"><span class="keyword">var</span> event;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (eventLoop.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 读取下一个事件</span></span><br><span class="line">    event = eventLoop.shift();</span><br><span class="line">    <span class="comment">// 执行事件</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      event();</span><br><span class="line">    &#125; <span class="keyword">catch</span>(err) &#123;</span><br><span class="line">      reportError(err);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="quiver-image-url/B8B27ABE4E184FF15C014A4AA595B0C8.jpg =611x569" alt="事件循环"></p>
 <p><strong>观察者</strong><br>观察者的作用在于在每一次循环中判断是否还有事件需要处理。每个事件循环中有一个或多个观察者，而判断是否有事件处理的过程就是向这些观察者询问是否有要处理的事件。浏览器也是类似的机制，事件可能来自于用户的点击，这些产生的事件都有对应的观察者。</p>
 <p>在 Node 中，这是一个典型的<a href="https://zh.wikipedia.org/wiki/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98" target="_blank" rel="noopener">生产者/消费者模型</a>，事件是生产者，可能来自于异步 I/O，网络请求等，这些事件被传递到观察者那边，事件循环是消费者，它从观察者手中取出事件并执行回调函数。</p>
@@ -125,7 +129,8 @@
 <p>接下来就是执行回调函数了。执行完成的方法被传到观察者那里，事件循环从观察者手中取出可用的请求对象，拿出回调函数和结果用于执行。于是乎，JavaScript 中传入的回调函数得到了执行。</p>
 <h3 id="Node-中的非-I-O-异步-API"><a href="#Node-中的非-I-O-异步-API" class="headerlink" title="Node 中的非 I/O 异步 API"></a>Node 中的非 I/O 异步 API</h3><p>与 I/O 无关的异步 API 比如：setTimeout(), setInterval(), setImmediate(), process.nextTick()。</p>
 <p><code>setTimeout()</code> 和 <code>setInterval()</code> 与浏览器中的 API 一致，分别用于单次和多次定时执行的任务。它们的实现原理和异步 I/O 类似，只是不需要 I/O 线程池的参与。</p>
-<p><code>setTimeout()</code> 创建的定时器将被插入到定时器观察者内部的一颗红黑树中，每一次事件循环执行时，将从该树中取出定时器对象，检查是否已经超时，如果超时则形成一个事件并执行它的回调函数。</p>
+<p><code>setTimeout()</code> 创建的定时器将被插入到定时器观察者内部的一颗红黑树中，每一次事件循环执行时，将从该树中取出定时器对象，检查是否已经超时，如果超时则形成一个事件放入事件循环队列中，等待宿主环境（浏览器、Node）执行它的回调函数。</p>
+<p>如果队列中已经存在很多项目，那么 <code>setTimeout()</code> 的回调就将排队等候，等到执行时可能已经过了定时的时间。所以它可能存在精度不高的情况。</p>
 <p><code>setInterval()</code> 和上述过程类似，区别在于重复检测和执行。</p>
 <p><code>process.nextTick()</code> 常用于立即异步执行一个任务。相比于使用 <code>setTimeout(callback, 0)</code> 的方式，显得更轻量一些。后者需要动用红黑树，创建定时器对象和迭代等操作，并且存在定时器不准确的问题，而前者仅仅将回调函数放入队列，在下一轮事件循环中从队列取出执行即可。</p>
 <p><code>setImmediate()</code> 和 <code>process.nextTick()</code> 类似，首要区别在于 <code>process.nextTick()</code> 的回调函数执行优先级高于 <code>setImmediate()</code>。可以用下面的例子验证：</p>
