@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ZERO</title>
+  
+  <subtitle>I Must Go Seek Some Dewdrops</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://kexin-li.github.io/"/>
+  <updated>2018-10-11T11:09:09.934Z</updated>
+  <id>https://kexin-li.github.io/</id>
+  
+  <author>
+    <name>likexin</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Node 初探之垃圾回收</title>
+    <link href="https://kexin-li.github.io/zh/2018/10/10/learn-node-part2/"/>
+    <id>https://kexin-li.github.io/zh/2018/10/10/learn-node-part2/</id>
+    <published>2018-10-10T06:55:37.000Z</published>
+    <updated>2018-10-11T11:09:09.934Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在 &lt;a href=&quot;https://github.com/v8/v8/wiki&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;V8&lt;/a&gt; 中，所有 JavaScript 对象都通过堆来进行分配的。当我们在代码中声明变量时，所使用对象的内存就分配在堆中。V8 会限制堆的大小，在 64 位系统下约为 1.4GB，32 位系统下约为 0.7GB。V8 中的垃圾回收机制也是系统自动回收，无需开发者手动回收。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="https://kexin-li.github.io/tags/javascript/"/>
+    
+      <category term="node" scheme="https://kexin-li.github.io/tags/node/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Node 初探之异步</title>
+    <link href="https://kexin-li.github.io/zh/2018/10/09/learn-node-part1/"/>
+    <id>https://kexin-li.github.io/zh/2018/10/09/learn-node-part1/</id>
+    <published>2018-10-09T13:13:19.000Z</published>
+    <updated>2018-10-12T07:06:11.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Node 的特点有异步 IO、事件循环与回调函数和单线程。Node 的使用场景有 I/O 密集型应用、CPU 密集型应用和分布式应用。Nginx 与 Node 都是异步 I/O、事件驱动的设计理念，它们的区别是 Nginx 具备面向客户端管理连接的强大能力，它的背后依然受限于各种同步方式的编程语言。&lt;/p&gt;
+&lt;p&gt;异步是指&lt;em&gt;现在&lt;/em&gt;运行的程序和&lt;em&gt;将来&lt;/em&gt;运行的程序中有一段时间间隙，如何处理这段时间间隙就是异步编程的核心。最简单的方法是使用回调函数。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="https://kexin-li.github.io/tags/javascript/"/>
+    
+      <category term="node" scheme="https://kexin-li.github.io/tags/node/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>网络基础知识备忘录(二)</title>
+    <link href="https://kexin-li.github.io/zh/2018/10/08/network-notes-part2/"/>
+    <id>https://kexin-li.github.io/zh/2018/10/08/network-notes-part2/</id>
+    <published>2018-10-08T11:59:34.000Z</published>
+    <updated>2018-10-09T13:17:29.106Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;对于我来说网络知识是属于比较抽象的部分，很多东西不记录下来很快就会忘记。所以有了这个网络基础知识的备忘录，这是第二部分，&lt;a href=&quot;https://kexin-li.github.io/zh/2018/09/17/network-notes-part1/&quot;&gt;第一部分见这里&lt;/a&gt; :)&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="network" scheme="https://kexin-li.github.io/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript 作用域与闭包</title>
+    <link href="https://kexin-li.github.io/zh/2018/09/20/what-is-scope-and-closures/"/>
+    <id>https://kexin-li.github.io/zh/2018/09/20/what-is-scope-and-closures/</id>
+    <published>2018-09-20T12:17:08.000Z</published>
+    <updated>2018-09-27T11:44:27.583Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;作用域是一套规则，它用来指导引擎如何查找到变量。所以我认为作用域主要是用来确定变量的位置，判断是否可访问到。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作用域是引擎的另一个好朋友（还有一个是编译器），它负责收集并维护由所有声明的标识符（变量）组成的一系列查询，并实施一套非常严格的规则，确定当前执行的代码对这些标识符的访问权限。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="javascript" scheme="https://kexin-li.github.io/tags/javascript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>网络基础知识备忘录(一)</title>
+    <link href="https://kexin-li.github.io/zh/2018/09/17/network-notes-part1/"/>
+    <id>https://kexin-li.github.io/zh/2018/09/17/network-notes-part1/</id>
+    <published>2018-09-17T13:17:37.000Z</published>
+    <updated>2018-10-08T12:34:35.270Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;对于我来说网络知识是属于比较抽象的部分，很多东西不记录下来很快就会忘记。所以有了这个网络基础知识的备忘录。这是第一部分，&lt;a href=&quot;https://kexin-li.github.io/zh/2018/10/08/network-notes-part2/&quot;&gt;第二部分见这里&lt;/a&gt; :)&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="network" scheme="https://kexin-li.github.io/tags/network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解析 React 工作流程</title>
+    <link href="https://kexin-li.github.io/zh/2018/09/14/how-react-works/"/>
+    <id>https://kexin-li.github.io/zh/2018/09/14/how-react-works/</id>
+    <published>2018-09-14T08:51:38.000Z</published>
+    <updated>2018-09-27T11:44:18.159Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;说起 React，可能脑海中浮现的第一句代码应该是 &lt;code&gt;ReactDOM.render(&amp;lt;App /&amp;gt;, root)&lt;/code&gt;。这一句代码很像 DOM 操作中的这句代码 &lt;code&gt;document.appendChild(App, root)&lt;/code&gt;。然而对于 React 来说，将 App 节点加载在 root 节点之后的这个过程中还发生了很多故事，比如 &lt;code&gt;&amp;lt;App /&amp;gt;&lt;/code&gt; 是如何转换为一个 DOM 节点的，&lt;code&gt;App&lt;/code&gt; 和 &lt;code&gt;&amp;lt;App /&amp;gt;&lt;/code&gt; 又有什么关系，render() 这个函数又做了什么等等。&lt;/p&gt;
+&lt;p&gt;这句代码所描述的场景可以称之为 Mounting，也就是加载一个组件到实际 DOM。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="how stuff works" scheme="https://kexin-li.github.io/tags/how-stuff-works/"/>
+    
+      <category term="javascript" scheme="https://kexin-li.github.io/tags/javascript/"/>
+    
+      <category term="react" scheme="https://kexin-li.github.io/tags/react/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Shall I compare thee to a summer’s day?</title>
+    <link href="https://kexin-li.github.io/en/2018/08/26/sonnet-18/"/>
+    <id>https://kexin-li.github.io/en/2018/08/26/sonnet-18/</id>
+    <published>2018-08-26T12:59:21.000Z</published>
+    <updated>2018-10-07T12:28:33.862Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Shall I compare thee to a summer’s day?&lt;/p&gt;
+&lt;p&gt;Thou art more lovely and more temperate.&lt;/p&gt;
+&lt;p&gt;Rough winds do shake the darling buds of May,&lt;/p&gt;
+&lt;p&gt;And summer’s lease hath all too short a date.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="poem" scheme="https://kexin-li.github.io/tags/poem/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello Cicada</title>
+    <link href="https://kexin-li.github.io/en/2018/08/26/hello-cicada/"/>
+    <id>https://kexin-li.github.io/en/2018/08/26/hello-cicada/</id>
+    <published>2018-08-26T12:29:16.000Z</published>
+    <updated>2018-09-20T14:47:58.085Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Hello &lt;a href=&quot;https://github.com/Kexin-Li/hexo-theme-cicada&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Cicada&lt;/a&gt;, Hello World.&lt;/p&gt;
+&lt;p&gt;Cicada is a concise and retro theme for Hexo. It helps you develop and publish your thoughts to the world.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Cicada" scheme="https://kexin-li.github.io/tags/Cicada/"/>
+    
+  </entry>
+  
+</feed>
