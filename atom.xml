@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://kexin-li.github.io/"/>
-  <updated>2018-10-13T13:11:21.305Z</updated>
+  <updated>2018-10-13T13:28:30.497Z</updated>
   <id>https://kexin-li.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://kexin-li.github.io/zh/2018/10/13/sorting-algorithm/"/>
     <id>https://kexin-li.github.io/zh/2018/10/13/sorting-algorithm/</id>
     <published>2018-10-13T13:08:03.000Z</published>
-    <updated>2018-10-13T13:11:21.305Z</updated>
+    <updated>2018-10-13T13:28:30.497Z</updated>
     
     <summary type="html">
     
@@ -149,9 +149,9 @@
     </summary>
     
     
-      <category term="how stuff works" scheme="https://kexin-li.github.io/tags/how-stuff-works/"/>
-    
       <category term="javascript" scheme="https://kexin-li.github.io/tags/javascript/"/>
+    
+      <category term="how stuff works" scheme="https://kexin-li.github.io/tags/how-stuff-works/"/>
     
       <category term="react" scheme="https://kexin-li.github.io/tags/react/"/>
     
