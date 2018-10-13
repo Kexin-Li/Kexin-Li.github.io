@@ -97,9 +97,9 @@
     </div>
     <div class="post-detail">
       
-        <p>Node 的特点有异步 IO、事件循环与回调函数和单线程。Node 的使用场景有 I/O 密集型应用、CPU 密集型应用和分布式应用。Nginx 与 Node 都是异步 I/O、事件驱动的设计理念，它们的区别是 Nginx 具备面向客户端管理连接的强大能力，它的背后依然受限于各种同步方式的编程语言。</p>
-<p>异步是指<em>现在</em>运行的程序和<em>将来</em>运行的程序中有一段时间间隙，如何处理这段时间间隙就是异步编程的核心。最简单的方法是使用回调函数。</p>
+        <p>异步是指<em>现在</em>运行的程序和<em>将来</em>运行的程序中有一段时间间隙，如何处理这段时间间隙就是异步编程的核心。最简单的方法是使用回调函数。</p>
 <a id="more"></a>
+<p>Node 的特点有异步 IO、事件循环与回调函数和单线程。Node 的使用场景有 I/O 密集型应用、CPU 密集型应用和分布式应用。Nginx 与 Node 都是异步 I/O、事件驱动的设计理念，它们的区别是 Nginx 具备面向客户端管理连接的强大能力，它的背后依然受限于各种同步方式的编程语言。</p>
 <h2 id="异步-I-O"><a href="#异步-I-O" class="headerlink" title="异步 I/O"></a>异步 I/O</h2><p>以读取文件为例，</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">'/path'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, file</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'读取文件完成'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(‘发起读取文件’);</span><br></pre></td></tr></table></figure>
 <p>“发起读取文件”是在“读取文件完成”之前输出的，而“读取文件完成”什么时候输出取决于读取文件的异步调用何时结束。“发起读取文件”可以理解为<em>现在</em>运行的程序，“读取文件完成”理解为<em>将来</em>运行的程序。</p>

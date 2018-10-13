@@ -101,8 +101,8 @@
     <div class="post-detail">
       
         <p>说起 React，可能脑海中浮现的第一句代码应该是 <code>ReactDOM.render(&lt;App /&gt;, root)</code>。这一句代码很像 DOM 操作中的这句代码 <code>document.appendChild(App, root)</code>。然而对于 React 来说，将 App 节点加载在 root 节点之后的这个过程中还发生了很多故事，比如 <code>&lt;App /&gt;</code> 是如何转换为一个 DOM 节点的，<code>App</code> 和 <code>&lt;App /&gt;</code> 又有什么关系，render() 这个函数又做了什么等等。</p>
-<p>这句代码所描述的场景可以称之为 Mounting，也就是加载一个组件到实际 DOM。</p>
 <a id="more"></a>
+<p>这句代码所描述的场景可以称之为 Mounting，也就是加载一个组件到实际 DOM。</p>
 <p>除了 Mounting 是 React 的主要功能之外，另外一个主要功能就是 Updating。在写原生 JS 的时候，当监测到用户响应，就会直接操作 DOM 呈现响应后的结果。而对于一个大型的应用，频繁地直接操作 DOM，将会增大 GPU 的消耗。React 的出现不仅仅实现了组件化编程，更是降低了直接操作实际 DOM 的频率。React 在内部会绘制出一棵 Virtual DOM Tree，它其实是一个 JavaScript Object。当监测到用户响应需要更新页面时，React 会根据新的 UI 绘制出一棵新的 Virtual DOM Tree，通过 Diff 算法对比旧的 Virtual DOM Tree，计算出差异有选择性地更新到实际的 DOM 中。这样做虽然降低了直接操作 DOM 的频率，但牺牲了操作实际 DOM 的速度。</p>
 <h2 id="Mounting"><a href="#Mounting" class="headerlink" title="Mounting"></a>Mounting</h2><p>了解加载过程，首先需要了解 React 是如何实现组件化编程的。在 React 中，组件（Component）并不是最小单位，元素（Element）才是。Element 是一个 JavaScript Object，里面保存着组件 的信息，而 Component 可以是 functional component, class component, 或者一个 <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code> 等等。所以 Component 是一个纯函数，一个类，或者一个 HTML Tag。我们平常写的 JSX，虽然看起来像是一句句 HTML，但最终都被 Babel 转换为了一个 Element 对象，保存着这个组件的信息。刚刚的这句代码 <code>ReactDOM.render(&lt;App /&gt;, root)</code>，其中 <code>&lt;App /&gt;</code> 其实是 Element，而 <code>App</code> 才是一个 Component。</p>
 <p>在实现 Mounting 的过程中，将经历三次转换。</p>
@@ -157,7 +157,7 @@
   
   
   <div class="post-tags">
-    <a href="/tags/javascript/">#javascript</a> <a href="/tags/how-stuff-works/">#how stuff works</a> <a href="/tags/react/">#react</a>
+    <a href="/tags/how-stuff-works/">#how stuff works</a> <a href="/tags/javascript/">#javascript</a> <a href="/tags/react/">#react</a>
   </div>
   <hr>
   
