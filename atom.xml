@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://kexin-li.github.io/"/>
-  <updated>2018-10-13T13:28:30.497Z</updated>
+  <updated>2018-10-14T08:35:45.164Z</updated>
   <id>https://kexin-li.github.io/</id>
   
   <author>
@@ -21,11 +21,11 @@
     <link href="https://kexin-li.github.io/zh/2018/10/13/sorting-algorithm/"/>
     <id>https://kexin-li.github.io/zh/2018/10/13/sorting-algorithm/</id>
     <published>2018-10-13T13:08:03.000Z</published>
-    <updated>2018-10-13T13:28:30.497Z</updated>
+    <updated>2018-10-14T08:35:45.164Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;本文记录了常用的排序算法，按照时间复杂度的分类方式，分为时间复杂度为 &lt;code&gt;O(n^2)&lt;/code&gt; 的算法，&lt;code&gt;O(nlogn)&lt;/code&gt; 的算法和 &lt;code&gt;O(n)&lt;/code&gt; 的算法依此讲解。&lt;/p&gt;
+      &lt;p&gt;本文记录了常用的排序算法，按照时间复杂度的分类方式，分为时间复杂度为 &lt;code&gt;O(n^2)&lt;/code&gt; 的算法，&lt;code&gt;O(nlogn)&lt;/code&gt; 的算法和 &lt;code&gt;O(n)&lt;/code&gt; 的算法依次讲解。&lt;/p&gt;
     
     </summary>
     
