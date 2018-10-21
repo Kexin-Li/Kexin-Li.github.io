@@ -146,7 +146,7 @@
 <ul>
 <li><strong>componentWillUnmount()</strong></li>
 </ul>
-<p>当组件将要被卸载时将调用 componentWillUnmount() 函数，应该比较少用。</p>
+<p>当组件将要被卸载时将调用 componentWillUnmount() 函数，当 React 组件要从 DOM 树上删除前，会调用一次这个函数。这个函数经常用于去除 componentDidMount() 函数带来的副作用，例如清楚计时器、删除componentDidMount() 中创造的非 React 元素。</p>
 <h2 id="Wrap-up"><a href="#Wrap-up" class="headerlink" title="Wrap-up"></a>Wrap-up</h2><p>用一张图来总结 React 的组件生命周期：</p>
 <figure><img src="/assets/react-lifecycle.jpg" alt="React LifeCycle"><figcaption><a href="http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/" target="_blank" rel="noopener">图片来源</a></figcaption></figure>
         <hr>
