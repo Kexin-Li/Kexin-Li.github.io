@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://kexin-li.github.io/"/>
-  <updated>2018-10-21T03:27:00.790Z</updated>
+  <updated>2018-10-23T08:01:20.000Z</updated>
   <id>https://kexin-li.github.io/</id>
   
   <author>
@@ -21,12 +21,12 @@
     <link href="https://kexin-li.github.io/zh/2018/10/21/react-component-lifecycle/"/>
     <id>https://kexin-li.github.io/zh/2018/10/21/react-component-lifecycle/</id>
     <published>2018-10-21T03:15:18.000Z</published>
-    <updated>2018-10-21T03:27:00.790Z</updated>
+    <updated>2018-10-23T08:01:20.000Z</updated>
     
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt;本文针对 React v16.3 及之后的版本。&lt;/p&gt;
+&lt;p&gt;本文针对 React v16.3 及之后的版本。React v16.3 废除了在 render 函数之前执行的三个生命周期函数，包括 componentWillReceiveProps, componentWillMount 和 componentWillUpdate。原因是 React Fiber 的引入，它采用了分片的渲染方式，从同步渲染转为异步渲染，会导致 render() 函数之前的生命周期函数被多次执行。&lt;/p&gt;
 &lt;/blockquote&gt;
     
     </summary>

@@ -96,7 +96,7 @@
     <div class="post-detail">
       
         <blockquote>
-<p>本文针对 React v16.3 及之后的版本。</p>
+<p>本文针对 React v16.3 及之后的版本。React v16.3 废除了在 render 函数之前执行的三个生命周期函数，包括 componentWillReceiveProps, componentWillMount 和 componentWillUpdate。原因是 React Fiber 的引入，它采用了分片的渲染方式，从同步渲染转为异步渲染，会导致 render() 函数之前的生命周期函数被多次执行。</p>
 </blockquote>
         <p id="excerpt">
           <a href="/zh/2018/10/21/react-component-lifecycle/" class="blog-post-link">

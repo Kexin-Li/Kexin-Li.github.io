@@ -101,7 +101,7 @@
     <div class="post-detail">
       
         <blockquote>
-<p>本文针对 React v16.3 及之后的版本。</p>
+<p>本文针对 React v16.3 及之后的版本。React v16.3 废除了在 render 函数之前执行的三个生命周期函数，包括 componentWillReceiveProps, componentWillMount 和 componentWillUpdate。原因是 React Fiber 的引入，它采用了分片的渲染方式，从同步渲染转为异步渲染，会导致 render() 函数之前的生命周期函数被多次执行。</p>
 </blockquote>
 <a id="more"></a>
 <p>React 组件生命周期将经历三个阶段：</p>
@@ -110,16 +110,21 @@
 <li>更新阶段(update)：当 React 的数据，也就是 state 或者 props 发生改变时，对组件进行更新渲染的阶段。</li>
 <li>卸载阶段(unmount)：将组件从 DOM 删除的阶段。</li>
 </ul>
-<h2 id="mount-阶段"><a href="#mount-阶段" class="headerlink" title="mount 阶段"></a>mount 阶段</h2><p>与 mount 阶段相关的生命周期函数有(将按顺序执行)：</p>
+<p>每个阶段有各自的生命周期函数，下面分阶段描述各自的生命周期函数。</p>
+<p>在 React v16.3 之后，废除了在 render 函数之前执行的三个生命周期函数，包括 componentWillReceiveProps, componentWillMount 和 componentWillUpdate，下文将不再赘述这三个生命周期。</p>
+<hr>
+<h2 id="mount"><a href="#mount" class="headerlink" title="mount"></a>mount</h2><p>与 mount 阶段相关的生命周期函数有：</p>
 <ul>
-<li><strong>constructor()</strong></li>
-<li>static getDerivedStateFromProps(props, state)</li>
-<li><strong>render(props)</strong></li>
-<li><strong>componentDidMount()</strong></li>
+<li>constructor()</li>
+<li>static getDerivedStateFromProps(nextProps, prevState)</li>
+<li>render()</li>
+<li>componentDidMount()</li>
 </ul>
-<p><strong>constructor()</strong><br>构造函数，经常为了初始化 state 或者绑定成员函数的 this 环境。如果没有上面两种需求，那么就无需实现这个函数。另外，不应该在 constructor 函数中进行 setState() 的操作，而应该直接为 this.state 赋值。也不应该将 props 的值赋给 state。</p>
-<p><strong>render()</strong><br>render() 函数用于渲染组件，是必需实现的函数。在装载组件时会调用 render() 函数，在 props 或者 state 更新时也可能调用(当 shouldComponentUpdate() 返回 false 时就不会调用)。render() 函数是一个纯函数，它不会修改 state 的值。</p>
-<p>render() 函数的返回值有以下几种：</p>
+<p><strong>constructor</strong><br>构造函数，经常为了初始化 state 或者绑定成员函数的 this 环境。如果没有上面两种需求，那么就无需实现这个函数。绑定 this 环境可以通过 ES6 的箭头解决，另外，不应该在 constructor 函数中进行 setState 的操作，而应该直接为 this.state 赋值。也不应该将 props 的值赋给 state。</p>
+<p><strong>getDerivedStateFromProps</strong><br>getDerivedStateFromProps 函数是一个静态函数，意味着函数体内拿不到 this 值。通常在这里做一些 props 与 state 的对比操作，从而更新 this.state 的值。getDerivedStateFromProps 返回的值将自动送到 this.setState 中。另外，不应该在这里做请求操作，而应该视情况分配到 componentDidMount 或者 componentDidUpdate 中。</p>
+<p>By the way，getDerivedStateFromProps 函数在 mounting 和 updating 阶段都会被调用，而且不管是 props 引起的 updating 还是 state 引起的 updating。React 的用意大概是进一步约束了开发者只能在 getDerivedStateFromProps 中作没有副作用的比对操作。</p>
+<p><strong>render</strong><br>render 函数用于渲染组件，是必需实现的函数。在装载组件时会调用 render(函数，在 props 或者 state 更新时也可能调用(当 shouldComponentUpdate 返回 false 时就不会调用)。render 函数是一个纯函数，它不会修改 state 的值。</p>
+<p>render 函数的返回值有以下几种：</p>
 <ul>
 <li>React element</li>
 <li>Arrays and fragments</li>
@@ -127,27 +132,35 @@
 <li>String and number</li>
 <li>Booleans or null</li>
 </ul>
-<p>常用的返回值是 React element，通常是由 JSX 编写的，element 是一个 JavaScript Object，保存着组件的各种信息。</p>
-<p><strong>componentDidMount()</strong><br>componentDidMount() 将会在组件被加载到 DOM 树后调用，它并不是 render() 函数执行完毕就调用，因为 render() 函数只是返回了 JSX 对象或 String 等其他东西，而非真正挂载到 DOM 树中。另外，componentDidMount函数在进行服务器端渲染时不会被调用。</p>
-<p>componentDidMount() 通常用于服务器数据的拉取操作，之所以在 componentDidMount() 中而不是在构造函数中进行数据拉取的原因在于：如果数据拉取回来了，即 props 已经有值了，但是组件还没有渲染出来，会报错。</p>
-<p>但是这里有一些把数据拉取提前到 constructor 函数的思路：在 contructor 函数中，通过 promise 来进行数据的拉取，并且绑定到 this 对象上，然后在 componentDidMount() 中执行 promise 把数据更新到 props 上。</p>
-<h2 id="update-阶段"><a href="#update-阶段" class="headerlink" title="update 阶段"></a>update 阶段</h2><p>当组件挂载到 DOM 树上之后，props/state 被修改会导致组件进行更新操作。与 update 阶段相关的生命周期函数有(将按顺序执行)：</p>
+<p>常用的返回值是 React element，通常是由 JSX 编写的，element 是一个 JavaScript Object，保存着组件的各种信息。当返回 null 时，代表不需要渲染该组件。</p>
+<p><strong>componentDidMount</strong><br>componentDidMount 将会在组件被加载到 DOM 树后调用，它并不是 render 函数执行完毕就调用，因为 render 函数只是返回了 JSX 对象或 String 等其他东西，而非真正挂载到 DOM 树中。另外，componentDidMount函数在进行服务器端渲染时不会被调用。</p>
+<p>componentDidMount 通常用于服务器数据的拉取操作，之所以在 componentDidMount 中而不是在构造函数中进行数据拉取的原因在于：如果数据拉取回来了，即 props 已经有值了，但是组件还没有渲染出来，会报错。</p>
+<blockquote>
+<p>但是这里有一些把数据拉取提前到 constructor 函数的思路：在 contructor 函数中，通过 promise 来进行数据的拉取，并且绑定到 this 对象上，然后在 componentDidMount 中执行 promise 把数据更新到 props 上。</p>
+</blockquote>
+<hr>
+<h2 id="update"><a href="#update" class="headerlink" title="update"></a>update</h2><p>当组件挂载到 DOM 树上之后，props/state 被修改会导致组件进行更新操作。与 update 阶段相关的生命周期函数有：</p>
 <ul>
-<li>static getDerivedStateFromProps(props, state)</li>
+<li>static getDerivedStateFromProps(nextProps, prevState)</li>
 <li>shouldComponentUpdate(nextProps, nextState)</li>
-<li><strong>render()</strong></li>
-<li>getSnapshotBeforeUpdate()</li>
-<li><strong>componentDidUpdate(prevProps, prevState, snapshot)</strong></li>
+<li>render()</li>
+<li>getSnapshotBeforeUpdate(prevProps, prevState)</li>
+<li>componentDidUpdate(prevProps, prevState, snapshot)</li>
 </ul>
-<p><strong>shouldComponentUpdate()</strong><br>shouldComponentUpdate() 函数旨在告诉 React 当前更新的 state 或 props 会不会影响当前组件的渲染，常用于性能的优化。</p>
-<p><strong>componentDidUpdate()</strong><br>更新完成后将调用 componentDidUpdate() 函数，常用于比对 props 或 state 的变化而做一些发起请求的操作。如果之前有调用 getSnapshotBeforeUpdate() 函数，那么其返回值将作为第三个参数传入 componentDidUpdate() 函数，否则的话第三个参数为 undefined。</p>
+<p><strong>shouldComponentUpdate</strong><br>shouldComponentUpdate 函数旨在告诉 React 当前更新的 state 或 props 会不会影响当前组件的渲染，常用于性能的优化。</p>
+<p><strong>getSnapshotBeforeUpdate</strong><br>getSnapshotBeforeUpdate 在 render 之后执行，但此时组件还没有更新到 DOM 上，getSnapshotBeforeUpdate 此时可以获取 DOM 的值，计算得到一个 snapshot，可以作为第三个参数传入下面的 componentDidUpdate 中。(PS: 这个应该不常用吧…)</p>
+<p><strong>componentDidUpdate</strong><br>更新完成后将调用 componentDidUpdate 函数，常用于比对 props 或 state 的变化而做一些发起请求的操作。如果之前有调用 getSnapshotBeforeUpdate 函数，那么其返回值将作为第三个参数传入 componentDidUpdate 函数，否则的话第三个参数为 undefined。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">componentDidUpdate(prevProps) &#123;</span><br><span class="line">  <span class="comment">// Typical usage (don't forget to compare props):</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.props.userID !== prevProps.userID) &#123;</span><br><span class="line">    <span class="keyword">this</span>.fetchData(<span class="keyword">this</span>.props.userID);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="unmount-阶段"><a href="#unmount-阶段" class="headerlink" title="unmount 阶段"></a>unmount 阶段</h2><p>与 unmount 阶段相关的生命周期函数有(将按顺序执行)：</p>
+<hr>
+<h2 id="unmount"><a href="#unmount" class="headerlink" title="unmount"></a>unmount</h2><p>与 unmount 阶段相关的生命周期函数有：</p>
 <ul>
-<li><strong>componentWillUnmount()</strong></li>
+<li>componentWillUnmount()</li>
 </ul>
-<p>当组件将要被卸载时将调用 componentWillUnmount() 函数，当 React 组件要从 DOM 树上删除前，会调用一次这个函数。这个函数经常用于去除 componentDidMount() 函数带来的副作用，例如清楚计时器、删除componentDidMount() 中创造的非 React 元素。</p>
-<h2 id="Wrap-up"><a href="#Wrap-up" class="headerlink" title="Wrap-up"></a>Wrap-up</h2><p>用一张图来总结 React 的组件生命周期：</p>
+<p>当组件将要被卸载时将调用 componentWillUnmount 函数，当 React 组件要从 DOM 树上删除前，会调用一次这个函数。这个函数经常用于去除 componentDidMount 函数带来的副作用，例如清楚计时器、删除 componentDidMount 中创造的非 React 元素。</p>
+<hr>
+<h2 id="Wrap-up"><a href="#Wrap-up" class="headerlink" title="Wrap-up"></a>Wrap-up</h2><p>React v16 还引入了另外一个声明周期函数，即 componentDidCatch，用于捕获错误。</p>
+<p>用一张图来总结 React 的组件生命周期，其中对于 getDerivedStateFromProps 的描述不太准确，不管是 new props，setState 还是 forceUpdate，都应该会调用 getDerivedStateFromProps 函数。</p>
+<p>我在 <a href="https://codesandbox.io/s/yzkqzo55v" target="_blank" rel="noopener">CodeSandBox</a> 上做了个小例子证明了不论是 props 的改变还是 state 的改变，或者是调用 forceUpdate 都会调用 getDerivedStateFromProps 函数。</p>
 <figure><img src="/assets/react-lifecycle.jpg" alt="React LifeCycle"><figcaption><a href="http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/" target="_blank" rel="noopener">图片来源</a></figcaption></figure>
         <hr>
       
