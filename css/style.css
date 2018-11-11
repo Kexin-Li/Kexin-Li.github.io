@@ -364,18 +364,20 @@ th {
 .blog-post, .blog-about {
   box-shadow: 0px 10px 50px rgba(210, 190, 171, 0.2); }
 
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 1.2em;
+  margin-bottom: .6em;
+  line-height: 1.35; }
+
 h1 {
   letter-spacing: .02em; }
 
 h2 {
   font-size: 1.42em;
-  margin: 1.2em 0; }
-
-h3 {
-  margin: 1.0em 0; }
+  line-height: 1.35; }
 
 p {
-  margin-bottom: 1.2em;
+  margin-bottom: 1.5em;
   hyphens: auto; }
 
 img {
@@ -419,7 +421,7 @@ body {
   padding: 0;
   font-size: 16px;
   line-height: 1.7;
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", sans-serif;
+  font: 400 0.9em/1.8 Avenir,Tahoma,Arial,PingFang SC,Lantinghei SC,Microsoft Yahei,Hiragino Sans GB,Microsoft Sans Serif,WenQuanYi Micro Hei,Helvetica,sans-serif;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
@@ -721,6 +723,12 @@ figure.highlight {
   @media screen and (max-width: 900px) {
     .post-content {
       padding: 10px; } }
+
+.post-typo {
+  line-height: 2.1; }
+  .post-typo ul, .post-typo ol {
+    padding: 0;
+    margin-left: 1.3em; }
 
 .blog-archive .fas {
   margin-right: 10px; }
